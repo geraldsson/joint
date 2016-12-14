@@ -354,6 +354,9 @@ joint.dia.Graph = Backbone.Model.extend({
         if (cells.length) {
 
             this.startBatch('remove');
+            cells = _.sortBy(cells, function(cell) {
+                return cell.getAncestors().length;
+            }).reverse();
             _.invoke(cells, 'remove', opt);
             this.stopBatch('remove');
         }
@@ -366,17 +369,19 @@ joint.dia.Graph = Backbone.Model.extend({
         options = options || {};
 
         if (!options.clear) {
-            // Applications might provide a `disconnectLinks` option set to `true` in order to
-            // disconnect links when a cell is removed rather then removing them. The default
-            // is to remove all the associated links.
-            if (options.disconnectLinks) {
+            // Disconnect links rather than removing them when they are
+            // still connected to another cell.
+            _.each(this.getConnectedLinks(cell), function(link) {
+                var source = link.get('source');
+                var target = link.get('target');
 
-                this.disconnectLinks(cell, options);
-
-            } else {
-
-                this.removeLinks(cell, options);
-            }
+                if (!source.id || !target.id || source.id === target.id)
+                    link.remove(options);
+                else if (source.id === model.id)
+                    link.set('source', g.point(source), options);
+                else
+                    link.set('target', g.point(target), options);
+            });
         }
         // Silently remove the cell from the cells collection. Silently, because
         // `joint.dia.Cell.prototype.remove` already triggers the `remove` event which is
@@ -946,7 +951,7 @@ joint.dia.Graph = Backbone.Model.extend({
         var method = opt.strict ? 'containsRect' : 'intersect';
 
         return _.filter(this.getElements(), function(el) {
-            return rect[method](el.getBBox());
+            return rect[method](el.getBBox().bbox(el.get('angle')));
         });
     },
 

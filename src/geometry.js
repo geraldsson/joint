@@ -690,7 +690,8 @@ var g = (function() {
         // @return r {rectangle} representing a bounding box
         bbox: function(angle) {
 
-            var theta = toRad(angle || 0);
+            var theta = angle && toRad(angle);
+            if (!theta) return this.clone();
             var st = abs(sin(theta));
             var ct = abs(cos(theta));
             var w = this.width * ct + this.height * st;

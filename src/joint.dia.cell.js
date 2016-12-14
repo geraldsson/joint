@@ -155,13 +155,21 @@ joint.dia.Cell = Backbone.Model.extend({
 
         // First, unembed this cell from its parent cell if there is one.
         var parentCellId = this.get('parent');
+        var parentEmbed;
         if (parentCellId) {
-
             var parentCell = graph && graph.getCell(parentCellId);
-            parentCell.unembed(this);
+            if (parentCell) {
+                parentCell.unembed(this);
+                parentEmbed = function(cell) {
+                    parentCell.embed(cell);
+                };
+            }
         }
 
-        _.invoke(this.getEmbeddedCells(), 'remove', opt);
+        _.each(this.getEmbeddedCells(), parentEmbed || function(cell) {
+            cell.unset('parent');
+        });
+        this.set('embeds', []);
 
         this.trigger('remove', this, this.collection, opt);
 
