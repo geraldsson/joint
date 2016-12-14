@@ -49,16 +49,20 @@ module.exports = function(grunt) {
 
         plugins: {
 
-            'shapes.erd': ['plugins/shapes/joint.shapes.erd.js'],
-            'shapes.fsa': ['plugins/shapes/joint.shapes.fsa.js'],
-            'shapes.org': ['plugins/shapes/joint.shapes.org.js'],
-            'shapes.chess': ['plugins/shapes/joint.shapes.chess.js'],
-            'shapes.pn': ['plugins/shapes/joint.shapes.pn.js'],
-            'shapes.devs': ['plugins/shapes/joint.shapes.devs.js'],
-            'shapes.uml': ['plugins/shapes/joint.shapes.uml.js'],
-            'shapes.logic': ['plugins/shapes/joint.shapes.logic.js'],
-
-            'layout.DirectedGraph': ['plugins/layout/DirectedGraph/joint.layout.DirectedGraph.js']
+            'shapes.bpmn': ['rappid/plugins/shapes/joint.shapes.bpmn.js'],
+            'dia.command': ['rappid/plugins/dia/Command/joint.dia.command.js'],
+            'ui.paperScroller': ['rappid/plugins/ui/PaperScroller/joint.ui.PaperScroller.js'],
+            'ui.selection': ['rappid/plugins/ui/Selection/joint.ui.Selection.js'],
+            'ui.clipboard': ['rappid/plugins/ui/Clipboard/joint.ui.Clipboard.js'],
+            'ui.stencil': ['rappid/plugins/ui/Stencil/joint.ui.Stencil.js'],
+            'ui.freeTransform': ['rappid/plugins/ui/FreeTransform/joint.ui.FreeTransform.js'],
+            'ui.snaplines': ['rappid/plugins/ui/Snaplines/joint.ui.Snaplines.js'],
+            'ui.textEditor': ['rappid/plugins/ui/TextEditor/joint.ui.TextEditor.js'],
+            'ui.keyboard': ['rappid/plugins/ui/Keyboard/joint.ui.Keyboard.js'],
+            'ui.contextToolbar': ['rappid/plugins/ui/ContextToolbar/joint.ui.ContextToolbar.js'],
+            'ui.popup': ['rappid/plugins/ui/Popup/joint.ui.Popup.js'],
+            'layout.GridLayout': ['rappid/plugins/layout/GridLayout/joint.layout.GridLayout.js'],
+            'format.svg': ['rappid/plugins/format/SVG/joint.format.svg.js']
         }
     };
 
@@ -71,6 +75,38 @@ module.exports = function(grunt) {
 
         plugins: {
 
+            'ui.paperScroller': [
+                'rappid/plugins/ui/PaperScroller/css/layout.css',
+                'rappid/plugins/ui/PaperScroller/css/themes/*.css'
+            ],
+            'ui.selection': [
+                'rappid/plugins/ui/Selection/css/layout.css',
+                'rappid/plugins/ui/Selection/css/themes/*.css'
+            ],
+            'ui.stencil': [
+                'rappid/plugins/ui/Stencil/css/layout.css',
+                'rappid/plugins/ui/Stencil/css/themes/*.css'
+            ],
+            'ui.freeTransform': [
+                'rappid/plugins/ui/FreeTransform/css/layout.css',
+                'rappid/plugins/ui/FreeTransform/css/themes/*.css'
+            ],
+            'ui.snaplines': [
+                'rappid/plugins/ui/Snaplines/css/layout.css',
+                'rappid/plugins/ui/Snaplines/css/themes/*.css'
+            ],
+            'ui.textEditor': [
+                'rappid/plugins/ui/TextEditor/css/layout.css',
+                'rappid/plugins/ui/TextEditor/css/themes/*.css'
+            ],
+            'ui.contextToolbar': [
+                'rappid/plugins/ui/ContextToolbar/css/layout.css',
+                'rappid/plugins/ui/ContextToolbar/css/themes/*.css'
+            ],
+            'ui.popup': [
+                'rappid/plugins/ui/Popup/css/layout.css',
+                'rappid/plugins/ui/Popup/css/themes/*.css'
+            ]
         }
     };
 
@@ -97,7 +133,7 @@ module.exports = function(grunt) {
         var files = [];
 
         for (var name in js.plugins) {
-            files.push('build/min/joint.' + name + '.min.js');
+            files.push('rappid/dist/joint.' + name + '.min.js');
         }
 
         return files;
@@ -108,7 +144,7 @@ module.exports = function(grunt) {
         var files = [];
 
         for (var name in css.plugins) {
-            files.push('build/min/joint.' + name + '.min.css');
+            files.push('rappid/dist/joint.' + name + '.min.css');
         }
 
         return files;
