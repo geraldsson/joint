@@ -377,7 +377,7 @@ joint.dia.Graph = Backbone.Model.extend({
 
                 if (!source.id || !target.id || source.id === target.id)
                     link.remove(options);
-                else if (source.id === model.id)
+                else if (source.id === cell.id)
                     link.set('source', g.point(source), options);
                 else
                     link.set('target', g.point(target), options);
