@@ -235,12 +235,31 @@ V = Vectorizer = (function() {
             };
         }
 
-        if (withoutTransformations) {
+        // Allow shapes to override path bbox.
+        // The path element should have data-bbox="x y width height".
+        var vel, bboxAttr;
 
-            return box;
+        if (this.hasClass('joint-element') || this.findParentByClass('joint-element')) {
+            vel = this.findOne('[data-bbox]') || this;
+            bboxAttr = vel.attr('data-bbox');
+            if (bboxAttr) {
+                bboxAttr = bboxAttr.split(' ');
+                box = {
+                    x: parseFloat(bboxAttr[0]) || 0,
+                    y: parseFloat(bboxAttr[1]) || 0,
+                    width: parseFloat(bboxAttr[2]) || 0,
+                    height: parseFloat(bboxAttr[3]) || 0
+                };
+            }
+        }
+        if (!bboxAttr) vel = this;
+
+        if (withoutTransformations) {
+            if (vel === this) return box;
+            target = this.node;
         }
 
-        var matrix = this.getTransformToElement(target || this.node.ownerSVGElement);
+        var matrix = vel.getTransformToElement(target || this.node.ownerSVGElement);
 
         return V.transformRect(box, matrix);
     };
