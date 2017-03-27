@@ -399,7 +399,7 @@ var joint = {
                 document.body.appendChild(svgDocument);
             }
 
-            var words = text.split(' ');
+            var words = text.replace(/[ \n]/g, ' \n').split('\n');
             var full = [];
             var lines = [];
             var p;
@@ -408,7 +408,7 @@ var joint = {
 
                 var word = words[i];
 
-                textNode.data = lines[l] ? lines[l] + ' ' + word : word;
+                textNode.data = lines[l] ? lines[l] + word : word;
 
                 if (textSpan.getComputedTextLength() <= width) {
 
